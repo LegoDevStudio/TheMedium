@@ -4,6 +4,8 @@ local protocol = "control_music"
 
 term.setCursorPos(1,1)
 term.clear()
+rednet.open(modemLocation)
+os.loadAPI("json")
 
 term.setTextColor(colors.purple)
 print("Music Venue Controls - V2")
