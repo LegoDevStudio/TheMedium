@@ -74,7 +74,7 @@ elseif input == "2" then
     end
 end
 
-local sender, message, protocoll = rednet.recieve()
+local sender, message, protocoll = rednet.receive()
 
 local data = json.decode(message)
 
