@@ -61,9 +61,12 @@ function fireworks (pulses)
 end
 
 function smoke (pulses)
-    output.set("grey", true)
-    sleep(pulses)
-    output.set("grey", false)
+    for i = 1, pulses, 1 do
+        output.set("grey", true)
+        sleep(.1)
+        output.set("grey", false)
+        sleep(.2)
+    end
 end
 
 function sendSuccess (sender)
@@ -131,7 +134,7 @@ while true do
         if data.data == nil or data.data.pulses == nil then
             sendFail(sender, "INVALID_DATA")
         else
-            smoke(1)
+            smoke(data.data.pulses)
             sendSuccess(sender)
         end
     else
