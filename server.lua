@@ -61,6 +61,7 @@ function fireworks (pulses)
 end
 
 function smoke (pulses)
+    print("yeet")
     for i = 1, pulses, 1 do
         output.set("grey", true)
         sleep(.1)
@@ -70,12 +71,14 @@ function smoke (pulses)
 end
 
 function sendSuccess (sender)
+    sleep(.2)
     rednet.send(sender, "{\"op\":0,\"data\":{\"code\":\"SUCCESS\"}}")
     term.setTextColor(colors.purple)
     print("Sent: 0 Content: {\"code\":\"SUCCESS\"}}")
 end
 
 function sendFail (sender, code)
+    sleep(.2)
     rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\""..code.."\"}}")
     term.setTextColor(colors.purple)
     print("Sent: 1 Content: {\"code\":\""..code.."\"}}")
@@ -100,7 +103,11 @@ while true do
     local data = json.decode(message)
 
     term.setTextColor(colors.purple)
-    print("Recieved: "..data.op.." Content: "..json.encode(data.data))
+    if data.data == nil then
+        print("Recieved: "..data.op.." No Content.")
+    else
+        print("Recieved: "..data.op.." Content: "..json.encode(data.data))
+    end
 
     if data.op == 0 then
         if data.data == nil or data.data.url == nil then
