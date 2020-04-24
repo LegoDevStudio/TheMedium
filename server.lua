@@ -92,49 +92,49 @@ term.setTextColor(colors.orange)
 print("System ready. Awaiting input.")
 
 while true do
-    local sender, message, protocol = rednet.recieve(protocol)
+    local sender, message, protocol = rednet.receive(protocol)
 
     local data = json.decode(message)
 
     term.setTextColor(colors.purple)
-    print("Recieved: "..data.op.." Content: "..data.data)
+    print("Recieved: "..data.op.." Content: "..json.encode(data.data))
 
     if data.op == 0 then
         if data.data == nil or data.data.url == nil then
-            rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\"INVALID_DATA\"}}")
+            sendFail(sender, "INVALID_DATA")
         else
             url(data.data.url)
-            rednet.send(sender, "{\"op\":0,\"data\":{\"code\":\"SUCCESS\"}}")
+            sendSuccess(sender)
         end
     elseif data.op == 1 then
         if data.data == nil then
-            rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\"INVALID_DATA\"}}")
+            sendFail(sender, "INVALID_DATA")
         else
             blackout()
-            rednet.send(sender, "{\"op\":0,\"data\":{\"code\":\"SUCCESS\"}}")
+            sendSuccess(sender)
         end
     elseif data.op == 2 then
         if data.data == nil then
-            rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\"INVALID_DATA\"}}")
+            sendFail(sender, "INVALID_DATA")
         else
             setIdle()
-            rednet.send(sender, "{\"op\":0,\"data\":{\"code\":\"SUCCESS\"}}")
+            sendSuccess(sender)
         end
     elseif data.op == 3 then
         if data.data == nil or data.data.pulses == nil then
-            rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\"INVALID_DATA\"}}")
+            sendFail(sender, "INVALID_DATA")
         else
             fireworks(data.data.pulses)
-            rednet.send(sender, "{\"op\":0,\"data\":{\"code\":\"SUCCESS\"}}")
+            sendSuccess(sender)
         end
     elseif data.op == 4 then
         if data.data == nil or data.data.pulses == nil then
-            rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\"INVALID_DATA\"}}")
+            sendFail(sender, "INVALID_DATA")
         else
-            smoke(data.data.pulses)
-            rednet.send(sender, "{\"op\":0,\"data\":{\"code\":\"SUCCESS\"}}")
+            smoke(1)
+            sendSuccess(sender)
         end
     else
-        rednet.send(sender, "{\"op\":1,\"data\":{\"code\":\"INVALID_OP\"}}")
+        sendFail(sender, "INVALID_OP")
     end
 end
