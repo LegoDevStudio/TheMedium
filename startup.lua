@@ -103,6 +103,11 @@ if data.op == 1 then
             print("Data has been wiped from this device. Shutting down in 5 seconds.")
             sleep(5)
             os.shutdown()
+        elseif data.data.code == "INVALID_URL" then
+            term.setTextColor(colors.red)
+            print("That's not a valid url! Try again.")
+            sleep(2)
+            os.reboot()
         end
     end
 elseif data.op == 0 then
