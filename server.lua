@@ -113,8 +113,20 @@ while true do
         if data.data == nil or data.data.url == nil then
             sendFail(sender, "INVALID_DATA")
         else
-            url(data.data.url)
-            sendSuccess(sender)
+            local success, unused = http.checkURL( data.data.url )
+            if not success then
+                -- check to see if this is just a url without https://
+                local successtwo, unusedagain = http.checkURL( "https://"..data.data.url )
+                if not successtwo then
+                    sendFail(sender, "INVALID_URL")
+                else
+                    url("https://"..data.data.url)
+                    sendSuccess(sender)
+                end
+            else
+                url(data.data.url)
+                sendSuccess(sender)
+            end
         end
     elseif data.op == 1 then
         if data.data == nil then
