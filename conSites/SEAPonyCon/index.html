@@ -12,6 +12,14 @@
     
     <header class="masthead text-center text-white d-flex" style="background-repeat: no-repeat;background-image: url(https://raw.githubusercontent.com/LegoDevStudio/TheMedium/master/conSites/SEAPonyCon/seaponycon.png);background-position: top;padding-top: 75px;">
     </header>
-    <!--<script src="/script.js"></script>-->
+    <!-- Got to push it through my api because chrome is weird ._. -->
+    <audio controls style="display:none;" id="music">
+      <source src="https://legodev-api.glitch.me/ponyfm/chill" type="audio/mpeg">
+    </audio>
+    <script>
+        setTimeout(() => {
+            document.getElementById("music").play();
+        });
+    </script>
   </body>
 </html>
