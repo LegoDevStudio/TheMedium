@@ -4,8 +4,14 @@
     <title>Quantum Christmas</title>
     <style>
       body {
+        height:100%;
         margin: 0px;
         padding: 0;
+      }
+      
+      img {
+        max-height: 100%;
+        max-width: 100%;
       }
 
       .ponycon-countdown {
@@ -18,8 +24,8 @@
     </style>
     <script>
       function updateWindowSize() {
-        document.getElementById("background").style =
-          "width:" + window.innerWidth + "px;height:" + window.innerHeight + "px;";
+        /*document.getElementById("background").style =
+          "width:" + window.innerWidth + "px;height:" + window.innerHeight + "px;";*/
         let element = document.getElementsByClassName("ponycon-countdown")[0];
         element.style =
           "top:" +
