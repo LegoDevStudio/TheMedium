@@ -19,7 +19,7 @@
       }
 
        .countdown {
-        font-size: 50px;
+        font-size: 75px;
       }
     </style>
     <script>
@@ -76,7 +76,6 @@
                 template = template + startDate.getSeconds();
               }
               document.getElementsByClassName("countdown")[0].innerHTML = template;
-              updateWindowSize();
             }, 1000);
           });
       }
