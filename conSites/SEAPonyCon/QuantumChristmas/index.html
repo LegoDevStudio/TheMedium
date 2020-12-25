@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quantum Christmas</title>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0;
+      }
+
+      .ponycon-countdown {
+        position: absolute;
+      }
+
+       .countdown {
+        font-size: 50px;
+      }
+    </style>
+    <script>
+      function updateWindowSize() {
+        document.getElementById("background").style =
+          "width:" + window.innerWidth + "px;height:" + window.innerHeight + "px;";
+        let element = document.getElementsByClassName("ponycon-countdown")[0];
+        element.style =
+          "top:" +
+          (window.innerHeight / 6 - element.getBoundingClientRect().height / 2) +
+          "px;left:" +
+          (window.innerWidth / 2 - element.getBoundingClientRect().width / 2) +
+          "px;";
+      }
+
+      function calculateTimes(con) {
+        return {
+          start: Date.parse(con[0]) - Date.now(),
+          end: Date.parse(con[1]) - Date.now()
+        };
+      }
+
+      let ponyconData = [];
+
+      function load() {
+        updateWindowSize();
+        fetch("https://api.ponycon.info/con/4")
+          .then((response) => response.json())
+          .then((con) => {
+            ponyconData = [con.times.start, con.times.end];
+            // Initiate update loop
+            setInterval(() => {
+              let countdowns = calculateTimes(ponyconData);
+              let template = "";
+              if (countdowns.start < 0) {
+                if (countdowns.end < 0) {
+                  document.getElementsByClassName("countdown")[0].class =
+                    "countdown ended";
+                  template = "Ended";
+                } else {
+                  document.getElementsByClassName("countdown")[0].class =
+                    "countdown active";
+                  template = "Live now!";
+                }
+              } else {
+                let startDate = new Date(countdowns.start);
+                if (startDate.getUTCHours() < 10) template = template + "0";
+                template = template + startDate.getUTCHours();
+                template = template + ":";
+                if (startDate.getUTCMinutes() < 10) template = template + "0";
+                template = template + startDate.getUTCMinutes();
+                template = template + ":";
+                if (startDate.getSeconds() < 10) template = template + "0";
+                template = template + startDate.getSeconds();
+              }
+              document.getElementsByClassName("countdown")[0].innerHTML = template;
+              updateWindowSize();
+            }, 1000);
+          });
+      }
+
+      window.onresize = load;
+
+      window.onload = updateWindowSize;
+    </script>
+  </head>
+  <body>
+    <img src="https://github.com/LegoDevStudio/TheMedium/blob/master/QuantumChristmas.png?raw=true" id="background">
+    <div class="ponycon-countdown">
+      <h1 class="countdown">FETCHING...</h1>
+    </div>
+  </body>
+</html>
